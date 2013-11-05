@@ -76,7 +76,7 @@ gopy.1.gz: gopy.rst
 
 py.o: $(GOFILES) py.go bindings.go exc.go
 	@$(ECHO) "  GCCGO\t\t$@"
-	$(GCCGO) -c $(CFLAGS) -fPIC -fgo-pkgpath=gopy -o $@ $^
+	$(GCCGO) -g -c $(CFLAGS) -fPIC -fgo-pkgpath=gopy -o $@ $^
 
 pyext.c: py.o pywrap
 	@$(ECHO) "  PYWRAP\t$@"
@@ -84,7 +84,7 @@ pyext.c: py.o pywrap
 
 libgopy.ext.so: ext.c pyext.c
 	@$(ECHO) "  GCC\t\t$@"
-	$(GCC) -shared $(CFLAGS) -fPIC -o $@ $^ -lgo -static-libgcc
+	$(GCC) -g -shared $(CFLAGS) -fPIC -o $@ $^ -lgo -static-libgcc
 
 libgopy.so: py.c ffi_type.c cgo.c types.c exc.c py.o
 	@$(ECHO) "  GCC\t\t$@"
@@ -120,27 +120,27 @@ exc.c exc.go: exc gen-py.go
 
 gopy: t/gopy.go
 	@$(ECHO) "  GCCGO\t\t$@"
-	$(GCCGO) -O2 -s -o $@ $^ -static-libgo -static-libgcc
+	$(GCCGO) -O2 -g -o $@ $^ -static-libgo -static-libgcc
 
 pywrap: t/pywrap.go
 	@$(ECHO) "  GCCGO\t\t$@"
-	$(GCCGO) -O2 -s -o $@ $^ -static-libgo -static-libgcc
+	$(GCCGO) -O2 -g -o $@ $^ -static-libgo -static-libgcc
 
 cgo: t/cgo.go t/utils.go
 	@$(ECHO) "  GCCGO\t\t$@"
-	$(GCCGO) -O2 -s -o $@ $^ -static-libgo -static-libgcc
+	$(GCCGO) -O2 -g -o $@ $^ -static-libgo -static-libgcc
 
 sym: t/sym.go t/utils.go
 	@$(ECHO) "  GCCGO\t\t$@"
-	$(GCCGO) -O2 -s -o $@ $^ -static-libgo -static-libgcc
+	$(GCCGO) -O2 -g -o $@ $^ -static-libgo -static-libgcc
 
 types: t/types.go t/utils.go
 	@$(ECHO) "  GCCGO\t\t$@"
-	$(GCCGO) -O2 -s -o $@ $^ -static-libgo -static-libgcc
+	$(GCCGO) -O2 -g -o $@ $^ -static-libgo -static-libgcc
 
 exc: t/exc.go t/utils.go
 	@$(ECHO) "  GCCGO\t\t$@"
-	$(GCCGO) -O2 -s -o $@ $^ -static-libgo -static-libgcc
+	$(GCCGO) -O2 -g -o $@ $^ -static-libgo -static-libgcc
 
 clean:
 	@$(ECHO) "  CLEAN"
