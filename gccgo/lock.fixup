@@ -1,0 +1,12 @@
+--- lock.orig.go	2013-07-07 16:12:58.874900606 +0100
++++ lock.go	2013-07-07 16:14:09.677258648 +0100
+@@ -151,6 +151,9 @@
+ 	}
+ 
+ 	runtime.LockOSThread()
++	// Make sure Python thread support is enabled - as it isn't enabled by
++	// default ...
++	_PyEval_InitThreads()
+ 	lock.gilState = GilState_Ensure()
+ 	lock.inc()
+ }
